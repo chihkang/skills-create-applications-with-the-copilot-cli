@@ -8,6 +8,9 @@
  * - Subtraction (-)
  * - Multiplication (*)
  * - Division (/)
+ * - Modulo (%)
+ * - Exponentiation (^)
+ * - Square Root (√)
  */
 
 const fs = require('fs');
@@ -39,6 +42,27 @@ class Calculator {
     return a / b;
   }
 
+  // Modulo operation - returns the remainder of a divided by b
+  modulo(a, b) {
+    if (b === 0) {
+      throw new Error('Cannot perform modulo with zero divisor');
+    }
+    return a % b;
+  }
+
+  // Exponentiation operation - returns base raised to the exponent
+  power(base, exponent) {
+    return Math.pow(base, exponent);
+  }
+
+  // Square root operation with error handling for negative numbers
+  squareRoot(n) {
+    if (n < 0) {
+      throw new Error('Cannot calculate square root of a negative number');
+    }
+    return Math.sqrt(n);
+  }
+
   // Main calculation method
   calculate(firstNumber, operation, secondNumber) {
     const num1 = parseFloat(firstNumber);
@@ -57,8 +81,15 @@ class Calculator {
         return this.multiply(num1, num2);
       case '/':
         return this.divide(num1, num2);
+      case '%':
+        return this.modulo(num1, num2);
+      case '^':
+        return this.power(num1, num2);
+      case '√':
+        // Square root only needs one number, ignore the second
+        return this.squareRoot(num1);
       default:
-        throw new Error('Invalid operation. Supported operations: +, -, *, /');
+        throw new Error('Invalid operation. Supported operations: +, -, *, /, %, ^, √');
     }
   }
 }
@@ -72,10 +103,13 @@ function main() {
     console.log('Usage: calculator <number1> <operation> <number2>');
     console.log('Example: calculator 10 + 5');
     console.log('\nSupported operations:');
-    console.log('  + : Addition');
-    console.log('  - : Subtraction');
-    console.log('  * : Multiplication');
-    console.log('  / : Division');
+    console.log('  +  : Addition');
+    console.log('  -  : Subtraction');
+    console.log('  *  : Multiplication');
+    console.log('  /  : Division');
+    console.log('  %  : Modulo (remainder)');
+    console.log('  ^  : Exponentiation (power)');
+    console.log('  √  : Square Root (single number)');
     process.exit(0);
   }
 
